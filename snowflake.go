@@ -1,6 +1,5 @@
 package snowflake
 
-
 import (
 	"errors"
 	"sync"
@@ -8,24 +7,24 @@ import (
 )
 
 const (
-	workerBits uint8 = 10						// 节点数
-	seqBits uint8 = 12							// 1毫秒内可生成的id序号的二进制位数
+	workerBits  uint8 = 10                      // 节点数
+	seqBits     uint8 = 12                      // 1毫秒内可生成的id序号的二进制位数
 	workerMax   int64 = -1 ^ (-1 << workerBits) // 节点ID的最大值，用于防止溢出
-	seqMax   int64 = -1 ^ (-1 << seqBits)    	// 同上，用来表示生成id序号的最大值
+	seqMax      int64 = -1 ^ (-1 << seqBits)    // 同上，用来表示生成id序号的最大值
 	timeShift   uint8 = workerBits + seqBits    // 时间戳向左的偏移量
 	workerShift uint8 = seqBits                 // 节点ID向左的偏移量
-	epoch int64 = 1567906170596					// 开始运行时间
+	epoch       int64 = 1567906170596           // 开始运行时间
 )
 
 type Worker struct {
 	// 添加互斥锁 确保并发安全
-	mu        sync.Mutex
+	mu sync.Mutex
 	// 记录时间戳
 	timestamp int64
 	// 该节点的ID
-	workerId  int64
+	workerId int64
 	// 当前毫秒已经生成的id序列号(从0开始累加) 1毫秒内最多生成4096个ID
-	seq       int64
+	seq int64
 }
 
 // 实例化对象
@@ -38,7 +37,7 @@ func NewWorker(workerId int64) (*Worker, error) {
 	return &Worker{
 		timestamp: 0,
 		workerId:  workerId,
-		seq:    0,
+		seq:       0,
 	}, nil
 }
 

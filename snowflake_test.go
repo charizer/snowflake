@@ -7,7 +7,7 @@ import (
 func TestSnowFlake(t *testing.T) {
 	worker, err := NewWorker(1)
 	if err != nil {
-		t.Fatalf("new worker err:%v",err)
+		t.Fatalf("new worker err:%v", err)
 		return
 	}
 	ch := make(chan int64)
@@ -20,8 +20,8 @@ func TestSnowFlake(t *testing.T) {
 	}
 	defer close(ch)
 	m := make(map[int64]int)
-	for i := 0; i < count; i++  {
-		id := <- ch
+	for i := 0; i < count; i++ {
+		id := <-ch
 		// 如果 map 中存在为 id 的 key, 说明生成的 snowflake ID 有重复
 		_, ok := m[id]
 		if ok {
@@ -35,30 +35,30 @@ func TestSnowFlake(t *testing.T) {
 	t.Log("snowflake ID Get successed!")
 }
 
-func TestMultiSnowFlake(t *testing.T){
+func TestMultiSnowFlake(t *testing.T) {
 	worker, err := NewWorker(1)
 	if err != nil {
-		t.Fatalf("new worker err:%v",err)
+		t.Fatalf("new worker err:%v", err)
 		return
 	}
 	t.Log("---worker 1---")
 	id := worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 	id = worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 	id = worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 
 	worker, err = NewWorker(2)
 	if err != nil {
-		t.Fatalf("new worker err:%v",err)
+		t.Fatalf("new worker err:%v", err)
 		return
 	}
 	t.Log("---worker 2---")
 	id = worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 	id = worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 	id = worker.Next()
-	t.Logf("id:%d",id)
+	t.Logf("id:%d", id)
 }
