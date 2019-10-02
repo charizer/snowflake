@@ -1,6 +1,7 @@
 # snowFlake 雪花算法
 snowflake ID 算法是 twitter 使用的唯一 ID 生成算法，为了满足 Twitter 每秒上万条消息的请求，使每条消息有唯一、有一定顺序的 ID ，且支持分布式生成。
-![image](https://https://github.com/charizer/blog/blob/master/images/snowflake.jpg)
+
+![image](https://github.com/charizer/blog/blob/master/images/snowflake.jpg)
 
 # 构成
 
@@ -22,9 +23,9 @@ snowflake ID 的结构是一个 64 bit 的 int 型数据。如下图所示：
 const (
 	workerBits uint8 = 10						// 节点数
 	seqBits uint8 = 12						    // 1毫秒内可生成的id序号的二进制位数
-	workerMax   int64 = -1 ^ (-1 << workerBits) // 节点ID的最大值，用于防止溢出
-	seqMax   int64 = -1 ^ (-1 << sewqBits)      // 同上，用来表示生成id序号的最大值
-	timeShift   uint8 = workerBits + seqBits    // 时间戳向左的偏移量
+	workerMax int64 = -1 ^ (-1 << workerBits)   // 节点ID的最大值，用于防止溢出
+	seqMax int64 = -1 ^ (-1 << sewqBits)        // 同上，用来表示生成id序号的最大值
+	timeShift uint8 = workerBits + seqBits      // 时间戳向左的偏移量
 	workerShift uint8 = seqBits                 // 节点ID向左的偏移量
 	epoch int64 = 1567906170596					// 开始运行时间
 )
@@ -43,7 +44,7 @@ type Worker struct {
 ```
 
 ### 算法描述：
-![image](https://https://github.com/charizer/blog/blob/master/images/snowflake_flow.jpg)
+![image](https://github.com/charizer/blog/blob/master/images/snowflake_flow.jpg)
 
 ### 使用示例：
 ```
